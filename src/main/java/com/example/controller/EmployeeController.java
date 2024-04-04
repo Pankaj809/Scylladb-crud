@@ -1,12 +1,10 @@
 package com.example.controller;
 
-import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.example.entity.Employee;
 import com.example.service.EmployeeService;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.*;
+
+import java.util.List;
 
 @Controller("/employee")
 public class EmployeeController {
@@ -22,9 +20,9 @@ public class EmployeeController {
         return employeeService.insertEmployee(employee);
     }
 
-    @Post("/update")
-    public Employee updateEmployee(@Body Employee employee){
-        return employeeService.updateEmployee(employee);
+ @Put("/update/{id}")
+    public Employee updateEmployee(int id, @Body Employee employee){
+        return employeeService.updateEmployee(id, employee.getName(),employee);
     }
 
     @Post("/delete/{id}")
@@ -33,7 +31,8 @@ public class EmployeeController {
     }
 
     @Get("/all")
-    public ResultSet getAllEmployees(Employee employee){
-        return employeeService.getEmployee(employee);
+    public List<Employee> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
+
 }
